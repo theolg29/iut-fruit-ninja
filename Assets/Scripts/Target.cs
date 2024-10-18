@@ -53,15 +53,13 @@ public class Target : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Sensor"))
         {
-            gameManager.DecreaseScore();
+            if (!gameObject.CompareTag("DecreaseScore"))
+            {
+                gameManager.DecreaseScore();
+            }
             Destroy(gameObject);
 
             gameManager.GameOver();
-
         }
-
-
     }
-
-
 }

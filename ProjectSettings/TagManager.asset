@@ -7,6 +7,7 @@ TagManager:
   - Sensor
   - IncreaseScore
   - DecreaseScore
+  - StartButton
   layers:
   - Default
   - TransparentFX

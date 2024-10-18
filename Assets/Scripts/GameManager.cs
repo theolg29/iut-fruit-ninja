@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,8 +13,11 @@ public class GameManager : MonoBehaviour
     private int score = 0;
 
     public bool isGameActive;
+    public bool isStartGame;
 
     public TMPro.TextMeshProUGUI gameOverText;
+    public TMPro.TextMeshProUGUI titre;
+    public Button restartGame;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +27,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InstantiateObjects());
 
         GameOver();
+
+        isGameActive = true;
+        isStartGame = true;   
     }
-    // Coroutine to instantiate objects with a delay
+
+    // Instancier les objets
     IEnumerator InstantiateObjects()
     {
-        while (true)
+        yield return new WaitForSeconds(1f);
+        while (isGameActive && isStartGame)
         {
             foreach (GameObject item in GameItems)
             {
@@ -41,21 +51,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GameOver();
     }
 
-    // Méthodes pour le score
+    // --- Méthodes pour le score ---
     void UpdateScore()
     {
         scoreText.text = "Score : " + score;
     }
 
+    // Augmenter le score
     public void IncreaseScore()
     {
         score += 5;
         UpdateScore();
     }
 
+    // Diminuer le score
     public void DecreaseScore()
     {
         score -= 5;
@@ -68,7 +80,18 @@ public class GameManager : MonoBehaviour
         if (score < 0)
         {
             gameOverText.gameObject.SetActive(true);
+            restartGame.gameObject.SetActive(true);
+            isGameActive = false;
         }       
     }
 
+    // Méthode pour redémarrer le jeu
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
+
+    
+
